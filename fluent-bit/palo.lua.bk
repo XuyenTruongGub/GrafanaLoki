@@ -1,0 +1,43 @@
+json = require("dkjson")
+traffic_fields={'domain','receive_time','serial','type','threat_and_content_type','config_version','generated_time','source_address','destination_address','nat_source_ip','nat_destination_ip','rule','source_user','destination_user','application','virtual_system','source_zone','destination_zone','inbound_interface','outbound_interface','log_action','time_logged','session_id','repeat_count','source_port','destination_port','nat_source_port','nat_destination_port','flags','ip_protocol','action','bytes','bytes_sent','bytes_received','packets','start_time','elapsed_time','category','tpadding','sequence_number','action_flags','source_country','destination_country','cpadding','packets_sent','packets_reveived','session_end_reason','device_group_hierachy_level_1','device_group_hierachy_level_2','device_group_hierachy_level_3','device_group_hierachy_level_4','virtual_system_name','device_name','action_source','source_vm_uuid','destination_vm_uuid','tunnel_id_and_imsi','monitor_tag_and_imei','parent_session_id','parent_session_start_time','tunnel','sctp_association_id','sctp_chunks','sctp_chunks_sent','sctp_chunks_received','uuid_for_rule','http_and_2_connection','link_change_count','policy_id','link_switches','sdwan_cluster','sdwan_devive_type','sdwan_cluster_type','sdwan_site','dynusergroup_name','xff_address','source_device_category','source_device_profile','source_device_model','source_device_vendor','source_device_os_family','source_device_os_version','source_hostname','source_mac_adress','destination_device_category','destination_device_profile','destination_device_model','destination_device_vendor','destination_device_os_family','destination_device_os_version','destination_device_hostname','destination_mac_address','container_id','pod_namespace','pod_name','source_external_dynamic_list','destination_external_dynamic_list','host_id','serial_number','source_dynamic_address_group','destination_dynamic_address_group','session_owner','high_res_timestamp','nssai_sst','nssai_sd'}
+
+function change_tag(tag, timestamp, record)
+  regex = "[^,]+"
+  log=record["log"]
+  log_table_temp = {}
+  log_table = {}
+  traffic_table = {}
+  record_2 = record
+  string = ''
+--      ///     ***     ***     \\\
+  if string.find(log,'TRAFFIC') then
+    for value in string.gmatch(log,regex) do
+      table.insert(log_table_temp,value)
+    end
+
+    for _, item in ipairs(log_table_temp) do
+      table.insert(log_table,item)
+    end
+
+--    for i = 1, #traffic_fields do
+--      traffic_table[traffic_fields[i]] = log_table_temp[i]
+--    end
+--    for i = 1, #traffic_fields do
+--      temp = string.format('%s:%s\n',tostring(traffic_fields[i]),tostring(log_table[i]))
+--      string = string .. temp
+--    end
+    for i,j in pairs(traffic_fields) do
+      temp = string.format('%s : %s',j,tostring(log_table[i]))
+      x = tostring(i)
+      record_2[x] = temp
+    end
+--      record_2[traffic_fields[i]] = log_table[i]  -- assign each key-value pair to the table
+    record_2["log"]=nil
+--    record_2["log"]=string
+--    str=json.encode(traffic_table,{ keyorder = traffic_fields})
+--    record_2 = json.decode(str,1,nil,nil,traffic_fields)
+    return 2,timestamp, record_2
+  else
+    return tag,timestamp,record
+  end
+end

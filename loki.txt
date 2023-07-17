@@ -1,0 +1,17 @@
+https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/
+https://grafana.com/docs/loki/latest/fundamentals/labels/
+https://grafana.com/docs/loki/latest/configuration/
+
+Có 3 node:
+1 node làm gatewat nhận log rồi forward
+1 node write
+1 node read
+
+https://www.sobyte.net/post/2022-06/grafana-loki-rw/		lab nói về 3 node
+
+https://github.com/grafana/loki/blob/main/production/ksonnet/loki/gateway.libsonnet		loki-gateway, là nginx với proxy_pass
+
+https://viblo.asia/p/load-balancing-voi-nginx-bWrZnVxnZxw	loki loadalance with round robin nginx proxy_pass
+
+
+https://github.com/grafana/loki/blob/main/production/docker/config/nginx.conf		gateway nginx example

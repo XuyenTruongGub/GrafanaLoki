@@ -1,0 +1,18 @@
+            location = /api/prom/push {
+              rewrite ^/api/prom/push(.*)$ http://10.1.31.44:3100/api/push redirect;
+            }
+            location = /api/prom/tail {
+              rewrite ^/api/prom/tail(.*)$ http://10.1.31.44:3100/api/tail redirect;
+            }
+            location ~ /api/prom/.* {
+              rewrite ^/api/prom/(.*)$ http://10.1.31.44:3100/api/prom redirect;
+            }
+            location = /loki/api/v1/push {
+              rewrite ^/loki/api/v1/push(.*)$ http://10.1.31.44:3100/loki/api/v1/push redirect;
+            }
+            location = /loki/api/v1/tail {
+              rewrite ^/loki/api/v1/tail(.*)$ http://10.1.31.44:3100/loki/api/v1/tail redirect;
+            }
+            location ~ /loki/api/.* {
+              rewrite ^/loki/api/(.*)$ http://10.1.31.44:3100/loki/api/.* redirect;
+            }
