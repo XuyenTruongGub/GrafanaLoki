@@ -5,3 +5,4 @@ Thành phần:
 - Nhận và đẩy log: Fluent-bit. Dùng để nhận từ các source khác nhau và đẩy về Loki.
 - Tổng hợp log: Loki. Tool được để cập chính trong bài lab này.
 - Trình diễn log: Grafana.
+- Loki Gateway: Server Nginx. Một web server cấu hình reverse proxy
